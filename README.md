@@ -1,3 +1,2 @@
-# flappyBird
-#小白开发
-#?????
+#flappyBird
+#第一款Html5游戏
