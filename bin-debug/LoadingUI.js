@@ -44,9 +44,8 @@ var LoadingUI = (function (_super) {
     LoadingUI.prototype.createView = function () {
         this.textField = new egret.TextField();
         this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
+        this.textField.y = App.stageHeight / 2;
+        this.textField.width = 288;
         this.textField.textAlign = "center";
     };
     LoadingUI.prototype.setProgress = function (current, total) {
@@ -55,3 +54,4 @@ var LoadingUI = (function (_super) {
     return LoadingUI;
 }(egret.Sprite));
 __reflect(LoadingUI.prototype, "LoadingUI");
+//# sourceMappingURL=LoadingUI.js.map

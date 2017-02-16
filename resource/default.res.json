@@ -1,23 +1,225 @@
 {
-	"groups":[
-	{
-		"keys":"bg_jpg,egret_icon_png,description_json",
-		"name":"preload"
-	}],
-	"resources":[
-	{
-		"name":"bg_jpg",
-		"type":"image",
-		"url":"assets/bg.jpg"
-	},
-	{
-		"name":"egret_icon_png",
-		"type":"image",
-		"url":"assets/egret_icon.png"
-	},
-	{
-		"name":"description_json",
-		"type":"json",
-		"url":"config/description.json"
-	}]
+	"groups": [
+		{
+			"keys": "egret_icon_png,bg_day_png,bg_night_png,button_menu_png,button_ok_png,button_pause_png,button_play_png,button_rate_png,button_restart_png,button_resume_png,button_score_png,button_share_png,cheat_down_png,cheat_normal_png,font_048_png,font_049_png,font_050_png,font_051_png,font_052_png,font_053_png,font_054_png,font_055_png,font_056_png,font_057_png,land_png,medals_0_png,medals_1_png,medals_2_png,medals_3_png,new_png,pipe2_down_png,pipe2_up_png,pipe_down_png,pipe_up_png,score_panel_png,text_game_over_png,text_ready_png,title_png,tutorial_png,X1_png,X2_png,bird_json,bird_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "bg_day_png",
+			"type": "image",
+			"url": "assets/flappybird/bg_day.png"
+		},
+		{
+			"name": "bg_night_png",
+			"type": "image",
+			"url": "assets/flappybird/bg_night.png"
+		},
+		{
+			"name": "button_menu_png",
+			"type": "image",
+			"url": "assets/flappybird/button_menu.png"
+		},
+		{
+			"name": "button_ok_png",
+			"type": "image",
+			"url": "assets/flappybird/button_ok.png"
+		},
+		{
+			"name": "button_pause_png",
+			"type": "image",
+			"url": "assets/flappybird/button_pause.png"
+		},
+		{
+			"name": "button_play_png",
+			"type": "image",
+			"url": "assets/flappybird/button_play.png"
+		},
+		{
+			"name": "button_rate_png",
+			"type": "image",
+			"url": "assets/flappybird/button_rate.png"
+		},
+		{
+			"name": "button_restart_png",
+			"type": "image",
+			"url": "assets/flappybird/button_restart.png"
+		},
+		{
+			"name": "button_resume_png",
+			"type": "image",
+			"url": "assets/flappybird/button_resume.png"
+		},
+		{
+			"name": "button_score_png",
+			"type": "image",
+			"url": "assets/flappybird/button_score.png"
+		},
+		{
+			"name": "button_share_png",
+			"type": "image",
+			"url": "assets/flappybird/button_share.png"
+		},
+		{
+			"name": "cheat_down_png",
+			"type": "image",
+			"url": "assets/flappybird/cheat_down.png"
+		},
+		{
+			"name": "cheat_normal_png",
+			"type": "image",
+			"url": "assets/flappybird/cheat_normal.png"
+		},
+		{
+			"name": "font_048_png",
+			"type": "image",
+			"url": "assets/flappybird/font_048.png"
+		},
+		{
+			"name": "font_049_png",
+			"type": "image",
+			"url": "assets/flappybird/font_049.png"
+		},
+		{
+			"name": "font_050_png",
+			"type": "image",
+			"url": "assets/flappybird/font_050.png"
+		},
+		{
+			"name": "font_051_png",
+			"type": "image",
+			"url": "assets/flappybird/font_051.png"
+		},
+		{
+			"name": "font_052_png",
+			"type": "image",
+			"url": "assets/flappybird/font_052.png"
+		},
+		{
+			"name": "font_053_png",
+			"type": "image",
+			"url": "assets/flappybird/font_053.png"
+		},
+		{
+			"name": "font_054_png",
+			"type": "image",
+			"url": "assets/flappybird/font_054.png"
+		},
+		{
+			"name": "font_055_png",
+			"type": "image",
+			"url": "assets/flappybird/font_055.png"
+		},
+		{
+			"name": "font_056_png",
+			"type": "image",
+			"url": "assets/flappybird/font_056.png"
+		},
+		{
+			"name": "font_057_png",
+			"type": "image",
+			"url": "assets/flappybird/font_057.png"
+		},
+		{
+			"name": "land_png",
+			"type": "image",
+			"url": "assets/flappybird/land.png"
+		},
+		{
+			"name": "medals_0_png",
+			"type": "image",
+			"url": "assets/flappybird/medals_0.png"
+		},
+		{
+			"name": "medals_1_png",
+			"type": "image",
+			"url": "assets/flappybird/medals_1.png"
+		},
+		{
+			"name": "medals_2_png",
+			"type": "image",
+			"url": "assets/flappybird/medals_2.png"
+		},
+		{
+			"name": "medals_3_png",
+			"type": "image",
+			"url": "assets/flappybird/medals_3.png"
+		},
+		{
+			"name": "new_png",
+			"type": "image",
+			"url": "assets/flappybird/new.png"
+		},
+		{
+			"name": "pipe2_down_png",
+			"type": "image",
+			"url": "assets/flappybird/pipe2_down.png"
+		},
+		{
+			"name": "pipe2_up_png",
+			"type": "image",
+			"url": "assets/flappybird/pipe2_up.png"
+		},
+		{
+			"name": "pipe_down_png",
+			"type": "image",
+			"url": "assets/flappybird/pipe_down.png"
+		},
+		{
+			"name": "pipe_up_png",
+			"type": "image",
+			"url": "assets/flappybird/pipe_up.png"
+		},
+		{
+			"name": "score_panel_png",
+			"type": "image",
+			"url": "assets/flappybird/score_panel.png"
+		},
+		{
+			"name": "text_game_over_png",
+			"type": "image",
+			"url": "assets/flappybird/text_game_over.png"
+		},
+		{
+			"name": "text_ready_png",
+			"type": "image",
+			"url": "assets/flappybird/text_ready.png"
+		},
+		{
+			"name": "title_png",
+			"type": "image",
+			"url": "assets/flappybird/title.png"
+		},
+		{
+			"name": "tutorial_png",
+			"type": "image",
+			"url": "assets/flappybird/tutorial.png"
+		},
+		{
+			"name": "X1_png",
+			"type": "image",
+			"url": "assets/flappybird/X1.png"
+		},
+		{
+			"name": "X2_png",
+			"type": "image",
+			"url": "assets/flappybird/X2.png"
+		},
+		{
+			"name": "bird_json",
+			"type": "json",
+			"url": "assets/flappybird/bird.json"
+		},
+		{
+			"name": "bird_png",
+			"type": "image",
+			"url": "assets/flappybird/bird.png"
+		}
+	]
 }
