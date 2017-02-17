@@ -24,7 +24,7 @@ var Bird = (function (_super) {
         var birdMc = new egret.MovieClip(mcDataFactory.generateMovieClipData("Bird"));
         this._mc = birdMc;
         this.addChild(this._mc);
-        //播放攻击动画
+        //播放动画
         this._mc.gotoAndPlay(birdColor[Math.floor(Math.random() * 3)], -1);
         this.anchorOffsetX = this.width >> 1;
         this.anchorOffsetY = this.height >> 1;
@@ -32,7 +32,6 @@ var Bird = (function (_super) {
         this.y = App.stageHeight / 2 - 40;
     };
     Bird.prototype.init = function () {
-        this._isFirstFly = true;
         this.x = App.stageWidth / 4;
         this.y = App.stageHeight / 2 - 20;
     };
@@ -57,9 +56,9 @@ var Bird = (function (_super) {
         if (this.y >= 0) {
             App.birdVelocity = App.birdTouchV;
         }
-        // if(this.rotation < 90){
-        // 	this.rotation = App.birdTouchR;
-        // }
+        /*if(this.rotation < 90){
+            this.rotation = App.birdTouchR;
+        }*/
     };
     Bird.prototype.hitFloor = function () {
         if (this.y + this.height >= App.landH) {

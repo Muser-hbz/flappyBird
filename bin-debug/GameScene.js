@@ -98,8 +98,9 @@ var GameScene = (function (_super) {
                 }
                 break;
             case GameStatus.END:
-                console.log('END');
+                // console.log(this._bird.height/2);
                 this.removeEventListener(egret.Event.ENTER_FRAME, this.tick, this);
+                this.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
                 break;
         }
         this._bgScene.moveLand();

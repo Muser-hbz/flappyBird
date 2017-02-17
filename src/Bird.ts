@@ -6,7 +6,6 @@ class Bird extends egret.DisplayObjectContainer {
 	}
 
 	private _mc: egret.MovieClip;
-	private _isFirstFly: boolean;
 	 
 	private onAddToStage(event:egret.Event): void{
 		this.creatBird();
@@ -19,7 +18,7 @@ class Bird extends egret.DisplayObjectContainer {
         let birdMc: egret.MovieClip = new egret.MovieClip(mcDataFactory.generateMovieClipData("Bird"));
 		this._mc = birdMc;
 		this.addChild(this._mc);
-        //播放攻击动画
+        //播放动画
 		this._mc.gotoAndPlay(birdColor[Math.floor(Math.random()*3)], -1);
 		this.anchorOffsetX = this.width >> 1;
 		this.anchorOffsetY = this.height >> 1;
@@ -28,7 +27,6 @@ class Bird extends egret.DisplayObjectContainer {
 	}
 
 	public init(): void{
-		this._isFirstFly = true;
 		this.x = App.stageWidth / 4;
 		this.y = App.stageHeight / 2 - 20;
 	}
@@ -59,9 +57,9 @@ class Bird extends egret.DisplayObjectContainer {
 		if(this.y >= 0){
 			App.birdVelocity = App.birdTouchV;
 		}
-		// if(this.rotation < 90){
-		// 	this.rotation = App.birdTouchR;
-		// }
+		/*if(this.rotation < 90){
+			this.rotation = App.birdTouchR;
+		}*/
 	}
 
 	private hitFloor(): boolean{

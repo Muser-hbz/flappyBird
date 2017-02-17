@@ -92,20 +92,30 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 	}
 	
 	public isHitBird(): boolean{
-
-		if(this.isInUpPipe(this._pipeUp1)) return true;
+		var birdOffset = GameScene.getInstance().getBridOffset();
+		var birdX:number = GameScene.getInstance().getBirdPos()[0];
+		var birdY:number = GameScene.getInstance().getBirdPos()[1];
+		if(this.isInUpPipe(this._pipeUp1,birdOffset,birdX,birdY)) return true;
+		if(this.isInUpPipe(this._pipeUp2,birdOffset,birdX,birdY)) return true;
+		if(this.isInDownPike(this._pipeDown1,birdOffset,birdX,birdY)) return true;
+		if(this.isInDownPike(this._pipeDown1,birdOffset,birdX,birdY)) return true;
 
 		return false;
 	}
 
-	private isInUpPipe(pikeUp:egret.Bitmap): boolean{
-		var birdOffset = GameScene.getInstance().getBridOffset();
-		var birdX:number = GameScene.getInstance().getBirdPos()[0];
-		var birdY:number = GameScene.getInstance().getBirdPos()[1];
-		if(pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - birdOffset - pikeUp.width ){
-			// console.log('llll');
-			if(birdY + birdOffset <= pikeUp.y ){
-				console.log('llll');
+	private isInUpPipe(pikeUp:egret.Bitmap,birdOffset:number,birdX:number,birdY:number): boolean{
+		if(pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width ){
+			if( birdY <= pikeUp.y ){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private isInDownPike(pikeDown:egret.Bitmap,birdOffset:number,birdX:number,birdY:number): boolean{
+		if(pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width){
+			// console.log(birdOffset);
+			if( birdY + 24 >= pikeDown.y ){
 				return true;
 			}
 		}

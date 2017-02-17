@@ -85,18 +85,31 @@ var BackgroundScene = (function (_super) {
         return Math.floor(100 + Math.random() * 80);
     };
     BackgroundScene.prototype.isHitBird = function () {
-        if (this.isInUpPipe(this._pipeUp1))
-            return true;
-        return false;
-    };
-    BackgroundScene.prototype.isInUpPipe = function (pikeUp) {
         var birdOffset = GameScene.getInstance().getBridOffset();
         var birdX = GameScene.getInstance().getBirdPos()[0];
         var birdY = GameScene.getInstance().getBirdPos()[1];
-        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - birdOffset - pikeUp.width) {
-            // console.log('llll');
-            if (birdY + birdOffset <= pikeUp.y) {
-                console.log('llll');
+        if (this.isInUpPipe(this._pipeUp1, birdOffset, birdX, birdY))
+            return true;
+        if (this.isInUpPipe(this._pipeUp2, birdOffset, birdX, birdY))
+            return true;
+        if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
+            return true;
+        if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
+            return true;
+        return false;
+    };
+    BackgroundScene.prototype.isInUpPipe = function (pikeUp, birdOffset, birdX, birdY) {
+        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width) {
+            if (birdY <= pikeUp.y) {
+                return true;
+            }
+        }
+        return false;
+    };
+    BackgroundScene.prototype.isInDownPike = function (pikeDown, birdOffset, birdX, birdY) {
+        if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width) {
+            // console.log(birdOffset);
+            if (birdY + 24 >= pikeDown.y) {
                 return true;
             }
         }
