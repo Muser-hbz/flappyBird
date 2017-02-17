@@ -112,6 +112,7 @@ var Main = (function (_super) {
     Main.prototype.createGameScene = function () {
         var game = GameScene.getInstance();
         this.stage.addChild(game);
+        // this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT
     };
     return Main;
 }(egret.DisplayObjectContainer));

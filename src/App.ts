@@ -1,19 +1,21 @@
 class App {
 	public static stageWidth:number = 288;
 	public static stageHeight:number = 512;
-	public static bgSpeedNormalOffset: number = 3;
-    public static bgSpeedUpOffset: number = 6;
-    public static bgOffset: number = App.bgSpeedNormalOffset;
+	public static bgSpeedNormalOffset: number = 2;
+    public static bgSpeedUpOffset: number = 4;
+    public static landOffset: number = 3;
+	public static pipeOffset: number = App.bgSpeedNormalOffset;
     public static isSpeedUp: boolean = false;
 	public static birdVelocity: number = 0;//当前速度 px/f
-	public static birdAcceleration: number = 0.6;//加速度 px/f^2
-	public static birdTouchV: number = -6;//点击加速度
+	public static birdAcceleration: number = 1;//加速度 px/f^2
+	public static birdTouchV: number = -8;//点击加速度
+	public static birdTouchR: number = -30;
+	public static birdRv: number = 0;
+	public static birdRa: number = 0.01;
+
 	public static isCheat: boolean = false;//是否作弊
 	public static testFlag: boolean = false;
 	public static landH: number;
-
-	public constructor() {
-	}
 
     public static getBitmap(imgName: string, x: number, y: number, isCenterAlign: boolean = true): egret.Bitmap {
         var bitmap = new egret.Bitmap(RES.getRes(imgName));
@@ -25,7 +27,6 @@ class App {
         bitmap.y = y;
         return bitmap;
     }
-
 }
 
 class GameStatus{

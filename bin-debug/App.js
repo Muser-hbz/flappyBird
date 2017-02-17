@@ -19,13 +19,17 @@ var App = (function () {
 }());
 App.stageWidth = 288;
 App.stageHeight = 512;
-App.bgSpeedNormalOffset = 3;
-App.bgSpeedUpOffset = 6;
-App.bgOffset = App.bgSpeedNormalOffset;
+App.bgSpeedNormalOffset = 2;
+App.bgSpeedUpOffset = 4;
+App.landOffset = 3;
+App.pipeOffset = App.bgSpeedNormalOffset;
 App.isSpeedUp = false;
 App.birdVelocity = 0; //当前速度 px/f
-App.birdAcceleration = 0.6; //加速度 px/f^2
-App.birdTouchV = -6; //点击加速度
+App.birdAcceleration = 1; //加速度 px/f^2
+App.birdTouchV = -8; //点击加速度
+App.birdTouchR = -30;
+App.birdRv = 0;
+App.birdRa = 0.01;
 App.isCheat = false; //是否作弊
 App.testFlag = false;
 __reflect(App.prototype, "App");

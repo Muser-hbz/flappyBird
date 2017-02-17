@@ -5,9 +5,8 @@ class Bird extends egret.DisplayObjectContainer {
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
 	}
 
-	// private _bird: egret.MovieClip;
 	private _mc: egret.MovieClip;
-	public hasTween: boolean;
+	private _isFirstFly: boolean;
 	 
 	private onAddToStage(event:egret.Event): void{
 		this.creatBird();
@@ -25,18 +24,33 @@ class Bird extends egret.DisplayObjectContainer {
 		this.anchorOffsetX = this.width >> 1;
 		this.anchorOffsetY = this.height >> 1;
         this.x = App.stageWidth / 2;
-        this.y = App.stageHeight / 2;
+        this.y = App.stageHeight / 2 - 40;
 	}
 
+	public init(): void{
+		this._isFirstFly = true;
+		this.x = App.stageWidth / 4;
+		this.y = App.stageHeight / 2 - 20;
+	}
+
+	private _angle:number = 0;
+
 	public waveUp(): void{
-		this.y--;
+		this.y = this.y + Math.sin(this._angle) * 2;
+		this._angle = (this._angle + 0.15) % (2*Math.PI);		
 	}
 
 	public update(): boolean{
-		App.birdVelocity = App.birdVelocity + App.birdAcceleration;
+		App.birdVelocity += App.birdAcceleration;
+		App.birdRv += App.birdRa;
 		for (var i = 0; i < Math.abs(App.birdVelocity); i++) {
 			this.y += Math.abs(App.birdVelocity) / App.birdVelocity;
-			if(this.hitFloor()) return false;
+			// if(this.rotation < 80 )	this.rotation += Math.abs(App.birdRv) / App.birdRv;
+
+			if(this.hitFloor()){
+				this.rotation = 90;
+				return false;
+			}
 		}
 		return true;
 	}
@@ -45,7 +59,9 @@ class Bird extends egret.DisplayObjectContainer {
 		if(this.y >= 0){
 			App.birdVelocity = App.birdTouchV;
 		}
-		egret.Tween.get(this).to({totation:this.rotation-30},200);
+		// if(this.rotation < 90){
+		// 	this.rotation = App.birdTouchR;
+		// }
 	}
 
 	private hitFloor(): boolean{
@@ -53,6 +69,14 @@ class Bird extends egret.DisplayObjectContainer {
 			return true;
 		}
 		return false;
+	}
+	
+	public getPos():Array<number>{
+		return [this.x,this.y];
+	}
+
+	public getOffset():number{
+		return this.width / 2;
 	}
 
 }

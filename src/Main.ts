@@ -119,6 +119,7 @@ class Main extends egret.DisplayObjectContainer {
     private createGameScene() {
         var game = GameScene.getInstance();
         this.stage.addChild(game);
+        // this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT
     }
 }
 

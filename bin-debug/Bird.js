@@ -10,6 +10,7 @@ var Bird = (function (_super) {
     __extends(Bird, _super);
     function Bird() {
         var _this = _super.call(this) || this;
+        _this._angle = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -28,23 +29,27 @@ var Bird = (function (_super) {
         this.anchorOffsetX = this.width >> 1;
         this.anchorOffsetY = this.height >> 1;
         this.x = App.stageWidth / 2;
-        this.y = App.stageHeight / 2;
+        this.y = App.stageHeight / 2 - 40;
     };
-    Bird.prototype.wave = function () {
-        if (this.y >= (App.stageHeight / 2 - 10)) {
-            this.y--;
-        }
-        // if(this.y >= (App.stageWidth/2 - 10)){
-        // 	this.y += 1;
-        // }
-        console.log(this.y);
+    Bird.prototype.init = function () {
+        this._isFirstFly = true;
+        this.x = App.stageWidth / 4;
+        this.y = App.stageHeight / 2 - 20;
+    };
+    Bird.prototype.waveUp = function () {
+        this.y = this.y + Math.sin(this._angle) * 2;
+        this._angle = (this._angle + 0.15) % (2 * Math.PI);
     };
     Bird.prototype.update = function () {
-        App.birdVelocity = App.birdVelocity + App.birdAcceleration;
+        App.birdVelocity += App.birdAcceleration;
+        App.birdRv += App.birdRa;
         for (var i = 0; i < Math.abs(App.birdVelocity); i++) {
             this.y += Math.abs(App.birdVelocity) / App.birdVelocity;
-            if (this.hitFloor())
+            // if(this.rotation < 80 )	this.rotation += Math.abs(App.birdRv) / App.birdRv;
+            if (this.hitFloor()) {
+                this.rotation = 90;
                 return false;
+            }
         }
         return true;
     };
@@ -52,13 +57,21 @@ var Bird = (function (_super) {
         if (this.y >= 0) {
             App.birdVelocity = App.birdTouchV;
         }
-        egret.Tween.get(this).to({ totation: this.rotation - 30 }, 200);
+        // if(this.rotation < 90){
+        // 	this.rotation = App.birdTouchR;
+        // }
     };
     Bird.prototype.hitFloor = function () {
         if (this.y + this.height >= App.landH) {
             return true;
         }
         return false;
+    };
+    Bird.prototype.getPos = function () {
+        return [this.x, this.y];
+    };
+    Bird.prototype.getOffset = function () {
+        return this.width / 2;
     };
     return Bird;
 }(egret.DisplayObjectContainer));

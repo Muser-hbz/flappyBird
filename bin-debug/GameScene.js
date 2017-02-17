@@ -17,16 +17,16 @@ var GameScene = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    GameScene.prototype.onAddToStage = function (event) {
-        this.touchEnabled = true;
-        this.creatGameScene();
-        this.addEventListener(egret.Event.ENTER_FRAME, this.tick, this);
-    };
     GameScene.getInstance = function () {
         if (!this._instance) {
             this._instance = new GameScene();
         }
         return this._instance;
+    };
+    GameScene.prototype.onAddToStage = function (event) {
+        this.touchEnabled = true;
+        this.creatGameScene();
+        this.addEventListener(egret.Event.ENTER_FRAME, this.tick, this);
     };
     GameScene.prototype.creatGameScene = function () {
         var bgScene = new BackgroundScene();
@@ -56,13 +56,15 @@ var GameScene = (function (_super) {
     };
     GameScene.prototype.gameReady = function (e) {
         var _this = this;
+        if (!this.hasEventListener(egret.Event.ENTER_FRAME))
+            this.addEventListener(egret.Event.ENTER_FRAME, this.tick, this);
         this._gameStatue = GameStatus.READY;
         this._playBt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.gameReady, this);
         this._title.visible = false;
         this._playBt.visible = false;
         this._gameReadyTxt.visible = true;
         this._tutorial.visible = true;
-        this._bird.x -= this._stageW / 4;
+        this._bird.init();
         egret.callLater(function () {
             _this.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.gameStart, _this);
         }, this);
@@ -72,6 +74,7 @@ var GameScene = (function (_super) {
         this.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.gameStart, this);
         this._gameReadyTxt.visible = false;
         this._tutorial.visible = false;
+        this.tap();
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
     };
     GameScene.prototype.gameOver = function () {
@@ -81,13 +84,31 @@ var GameScene = (function (_super) {
         this._bird.flying();
     };
     GameScene.prototype.tick = function () {
-        // console.log('tick');
         switch (this._gameStatue) {
             case GameStatus.INIT:
-                this._bgScene.moveLand();
-                this._bird.wave();
+                this._bird.waveUp();
+                break;
+            case GameStatus.READY:
+                this._bird.waveUp();
+                break;
+            case GameStatus.START:
+                this._bgScene.movePipe();
+                if (!this._bird.update() || this._bgScene.isHitBird()) {
+                    this._gameStatue = GameStatus.END;
+                }
+                break;
+            case GameStatus.END:
+                console.log('END');
+                this.removeEventListener(egret.Event.ENTER_FRAME, this.tick, this);
                 break;
         }
+        this._bgScene.moveLand();
+    };
+    GameScene.prototype.getBirdPos = function () {
+        return this._bird.getPos();
+    };
+    GameScene.prototype.getBridOffset = function () {
+        return this._bird.getOffset();
     };
     return GameScene;
 }(egret.DisplayObjectContainer));
