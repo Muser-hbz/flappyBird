@@ -11,6 +11,11 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 	private _pipeDown1: egret.Bitmap;
 	private _pipeDown2: egret.Bitmap;
 
+
+	private _scoreBitmapArray:Array<egret.Bitmap> = new Array<egret.Bitmap>();
+	private _numberBitmapArray:Array<egret.Bitmap> = this.loadNumberImg();
+
+
 	private creatScene(): void{
 		var bg:egret.Bitmap = new egret.Bitmap();
 		bg.texture = RES.getRes('bg_day_png');
@@ -54,7 +59,6 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 
 		this.addChild(this._land1);
 		this.addChild(this._land2);
-
 	}
 
 	public moveLand(): void{
@@ -75,16 +79,19 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 		this._pipeDown2.x = this._pipeUp2.x;
 		if( this._pipeUp1.x == -this._pipeUp1.width ){
 			this._pipeUp1.x =  App.stageWidth;
+			this._isCheck = false;
 			this._pipeUp1.y = this.getPipeUpH();
 			this._pipeDown1.x = this._pipeUp1.x;
 			this._pipeDown1.y = this._pipeUp1.y + 100;
 		}
 		if( this._pipeUp2.x == -this._pipeUp2.width ){
 			this._pipeUp2.x =  App.stageWidth;
+			this._isCheck = false;
 			this._pipeUp2.y = this.getPipeUpH();
 			this._pipeDown2.x = this._pipeUp2.x;
 			this._pipeDown2.y = this._pipeUp2.y + 100;
 		}
+		this.checkScore();
 	}
 
 	private getPipeUpH(): number{
@@ -114,7 +121,6 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 
 	private isInDownPike(pikeDown:egret.Bitmap,birdOffset:number,birdX:number,birdY:number): boolean{
 		if(pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width){
-			// console.log(birdOffset);
 			if( birdY + 24 >= pikeDown.y ){
 				return true;
 			}
@@ -122,5 +128,32 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 		return false;
 	}
 
-	
+	private _isCheck:boolean = false;
+
+	private _line:number;
+	private checkScore():void{
+        this._line = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+		if(this._isCheck) return;
+		var _line:number = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+
+		if( this._pipeUp1.x + this._pipeUp1.width <= _line || this._pipeUp2.x + this._pipeUp2.width <= _line ){
+			this.addScore();
+			this._isCheck = true;
+		}
+	}
+
+	private addScore():void{
+		GameScene.getInstance().addScore();
+	}	
+
+	private formatScore(score:number):void{
+	}
+
+	private loadNumberImg():Array<egret.Bitmap>{
+		var numberImg:Array<egret.Bitmap> = new Array<egret.Bitmap>();
+		for(let i=0;i<=9;++i){
+			numberImg[i] = new egret.Bitmap(RES.getRes(`font_${i}`));
+		}	
+		return numberImg;
+	}
 }

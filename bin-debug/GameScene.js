@@ -53,6 +53,34 @@ var GameScene = (function (_super) {
         this._tutorial = tutorial;
         this._tutorial.visible = false;
         this.addChild(this._tutorial);
+        var scoreTxt = new egret.TextField();
+        scoreTxt.textColor = 0xffffff;
+        scoreTxt.textAlign = 'center';
+        scoreTxt.text = 'Score:';
+        scoreTxt.x = (this._stageW - scoreTxt.width) / 2;
+        scoreTxt.y = this._stageH * 0.05;
+        scoreTxt.visible = false;
+        this._scoreTxt = scoreTxt;
+        this.addChild(this._scoreTxt);
+        var scoreNum = new egret.TextField();
+        scoreNum.textColor = 0xffffff;
+        scoreNum.textAlign = 'center';
+        scoreNum.text = '0';
+        this._scoreNum = scoreNum;
+        this._scoreNum.x = (this._stageW - this._scoreNum.width) / 2;
+        this._scoreNum.y = this._stageH * 0.15;
+        scoreNum.visible = false;
+        this.addChild(this._scoreNum);
+    };
+    GameScene.prototype.init = function () {
+        this._title.visible = false;
+        this._playBt.visible = false;
+        this._gameReadyTxt.visible = true;
+        this._tutorial.visible = true;
+        this._scoreTxt.visible = true;
+        this._scoreNum.visible = true;
+        this._bird.init();
+        this._currentScore = 0;
     };
     GameScene.prototype.gameReady = function (e) {
         var _this = this;
@@ -60,11 +88,7 @@ var GameScene = (function (_super) {
             this.addEventListener(egret.Event.ENTER_FRAME, this.tick, this);
         this._gameStatue = GameStatus.READY;
         this._playBt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.gameReady, this);
-        this._title.visible = false;
-        this._playBt.visible = false;
-        this._gameReadyTxt.visible = true;
-        this._tutorial.visible = true;
-        this._bird.init();
+        this.init();
         egret.callLater(function () {
             _this.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.gameStart, _this);
         }, this);
@@ -77,8 +101,14 @@ var GameScene = (function (_super) {
         this.tap();
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
     };
+    GameScene.prototype.gameOverLayer = function () {
+        var gameOverTxt = App.getBitmap('text_game_over_png', this._stageW / 2, this._stageH / 3);
+        this._gameOverTxt = gameOverTxt;
+        this.addChild(this._gameOverTxt);
+    };
     GameScene.prototype.gameOver = function () {
-        this._gameStatue = GameStatus.START;
+        this.removeEventListener(egret.Event.ENTER_FRAME, this.tick, this);
+        this.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
     };
     GameScene.prototype.tap = function () {
         this._bird.flying();
@@ -99,8 +129,7 @@ var GameScene = (function (_super) {
                 break;
             case GameStatus.END:
                 // console.log(this._bird.height/2);
-                this.removeEventListener(egret.Event.ENTER_FRAME, this.tick, this);
-                this.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
+                this.gameOver();
                 break;
         }
         this._bgScene.moveLand();
@@ -110,6 +139,10 @@ var GameScene = (function (_super) {
     };
     GameScene.prototype.getBridOffset = function () {
         return this._bird.getOffset();
+    };
+    GameScene.prototype.addScore = function () {
+        this._currentScore++;
+        this._scoreNum.text = this._currentScore.toString();
     };
     return GameScene;
 }(egret.DisplayObjectContainer));

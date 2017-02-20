@@ -10,6 +10,9 @@ var BackgroundScene = (function (_super) {
     __extends(BackgroundScene, _super);
     function BackgroundScene() {
         var _this = _super.call(this) || this;
+        _this._scoreBitmapArray = new Array();
+        _this._numberBitmapArray = _this.loadNumberImg();
+        _this._isCheck = false;
         _this.creatScene();
         return _this;
     }
@@ -70,16 +73,19 @@ var BackgroundScene = (function (_super) {
         this._pipeDown2.x = this._pipeUp2.x;
         if (this._pipeUp1.x == -this._pipeUp1.width) {
             this._pipeUp1.x = App.stageWidth;
+            this._isCheck = false;
             this._pipeUp1.y = this.getPipeUpH();
             this._pipeDown1.x = this._pipeUp1.x;
             this._pipeDown1.y = this._pipeUp1.y + 100;
         }
         if (this._pipeUp2.x == -this._pipeUp2.width) {
             this._pipeUp2.x = App.stageWidth;
+            this._isCheck = false;
             this._pipeUp2.y = this.getPipeUpH();
             this._pipeDown2.x = this._pipeUp2.x;
             this._pipeDown2.y = this._pipeUp2.y + 100;
         }
+        this.checkScore();
     };
     BackgroundScene.prototype.getPipeUpH = function () {
         return Math.floor(100 + Math.random() * 80);
@@ -108,12 +114,33 @@ var BackgroundScene = (function (_super) {
     };
     BackgroundScene.prototype.isInDownPike = function (pikeDown, birdOffset, birdX, birdY) {
         if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width) {
-            // console.log(birdOffset);
             if (birdY + 24 >= pikeDown.y) {
                 return true;
             }
         }
         return false;
+    };
+    BackgroundScene.prototype.checkScore = function () {
+        this._line = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+        if (this._isCheck)
+            return;
+        var _line = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+        if (this._pipeUp1.x + this._pipeUp1.width <= _line || this._pipeUp2.x + this._pipeUp2.width <= _line) {
+            this.addScore();
+            this._isCheck = true;
+        }
+    };
+    BackgroundScene.prototype.addScore = function () {
+        GameScene.getInstance().addScore();
+    };
+    BackgroundScene.prototype.formatScore = function (score) {
+    };
+    BackgroundScene.prototype.loadNumberImg = function () {
+        var numberImg = new Array();
+        for (var i = 0; i <= 9; ++i) {
+            numberImg[i] = new egret.Bitmap(RES.getRes("font_" + i));
+        }
+        return numberImg;
     };
     return BackgroundScene;
 }(egret.DisplayObjectContainer));

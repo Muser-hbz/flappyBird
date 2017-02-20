@@ -76,6 +76,40 @@ class GameScene extends egret.DisplayObjectContainer{
 		this._tutorial.visible = false;
 		this.addChild(this._tutorial);
 
+		var scoreTxt = new egret.TextField();
+		scoreTxt.textColor = 0xffffff;
+		scoreTxt.textAlign = 'center';
+		scoreTxt.text = 'Score:';
+		scoreTxt.x = (this._stageW - scoreTxt.width) / 2;
+		scoreTxt.y = this._stageH * 0.05;
+		scoreTxt.visible = false;
+		this._scoreTxt = scoreTxt;
+		this.addChild(this._scoreTxt);
+
+		var scoreNum = new egret.TextField();
+		scoreNum.textColor = 0xffffff;
+		scoreNum.textAlign = 'center';
+		scoreNum.text = '0';
+		this._scoreNum = scoreNum;
+		this._scoreNum.x = (this._stageW - this._scoreNum.width) / 2;
+		this._scoreNum.y = this._stageH * 0.15;
+		scoreNum.visible = false;
+		this.addChild(this._scoreNum);
+
+
+	}
+
+	private init():void{
+		this._title.visible = false;
+		this._playBt.visible = false; 
+
+		this._gameReadyTxt.visible = true;
+		this._tutorial.visible = true;
+		this._scoreTxt.visible = true;
+		this._scoreNum.visible = true;
+
+		this._bird.init();
+		this._currentScore = 0;
 	}
 
 	private gameReady(e:egret.TouchEvent): void{
@@ -84,14 +118,8 @@ class GameScene extends egret.DisplayObjectContainer{
 		this._gameStatue = GameStatus.READY;
 		this._playBt.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.gameReady,this);
 
-		this._title.visible = false;
-		this._playBt.visible = false; 
+		this.init();
 
-		this._gameReadyTxt.visible = true;
-		this._tutorial.visible = true;
-
-		this._bird.init();
-		
 		egret.callLater(()=>{
 			this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.gameStart,this);
 		},this);
@@ -109,9 +137,15 @@ class GameScene extends egret.DisplayObjectContainer{
 
 	}
 
-	private gameOver(): void{
-		this._gameStatue = GameStatus.START;
+	private gameOverLayer(): void{
+		var gameOverTxt:egret.Bitmap = App.getBitmap('text_game_over_png',this._stageW >> 1,this._stageH / 3);
+		this._gameOverTxt = gameOverTxt;
+		this.addChild(this._gameOverTxt);
+	}
 
+	private gameOver():void{
+		this.removeEventListener(egret.Event.ENTER_FRAME,this.tick,this);
+		this.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.tap,this);
 	}
 	
 	private tap(): void{
@@ -134,8 +168,7 @@ class GameScene extends egret.DisplayObjectContainer{
 				break;
 			case GameStatus.END:
 				// console.log(this._bird.height/2);
-				this.removeEventListener(egret.Event.ENTER_FRAME,this.tick,this);
-				this.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.tap,this);
+				this.gameOver();
 				break;
 		}
 		this._bgScene.moveLand();
@@ -147,5 +180,10 @@ class GameScene extends egret.DisplayObjectContainer{
 
 	public getBridOffset():number{
 		return this._bird.getOffset();
+	}
+
+	public addScore():void{
+		this._currentScore++;
+		this._scoreNum.text = this._currentScore.toString();
 	}
 }
