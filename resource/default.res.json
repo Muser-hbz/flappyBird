@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,bg_day_png,bg_night_png,button_menu_png,button_ok_png,button_pause_png,button_play_png,button_rate_png,button_restart_png,button_resume_png,button_score_png,button_share_png,cheat_down_png,cheat_normal_png,land_png,medals_0_png,medals_1_png,medals_2_png,medals_3_png,new_png,pipe_down_png,pipe_up_png,score_panel_png,text_game_over_png,text_ready_png,title_png,tutorial_png,X1_png,X2_png,bird_json,bird_png,font_4_png,font_5_png,font_6_png,font_7_png,font_8_png,font_9_png,font_3_png,font_2_png,font_1_png,font_0_png",
+			"keys": "egret_icon_png,bg_day_png,bg_night_png,button_menu_png,button_ok_png,button_pause_png,button_play_png,button_rate_png,button_restart_png,button_resume_png,button_score_png,button_share_png,cheat_down_png,cheat_normal_png,land_png,medals_0_png,medals_1_png,medals_2_png,medals_3_png,new_png,pipe_down_png,pipe_up_png,score_panel_png,text_game_over_png,text_ready_png,title_png,tutorial_png,X1_png,X2_png,bird_json,bird_png,font_4_png,font_5_png,font_6_png,font_7_png,font_8_png,font_9_png,font_3_png,font_2_png,font_1_png,font_0_png,number_fnt,number_png",
 			"name": "preload"
 		}
 	],
@@ -210,6 +210,16 @@
 			"name": "font_0_png",
 			"type": "image",
 			"url": "assets/flappybird/font_0.png"
+		},
+		{
+			"name": "number_fnt",
+			"type": "font",
+			"url": "assets/flappybird/number.fnt"
+		},
+		{
+			"name": "number_png",
+			"type": "image",
+			"url": "assets/flappybird/number.png"
 		}
 	]
 }

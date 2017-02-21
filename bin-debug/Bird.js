@@ -34,6 +34,7 @@ var Bird = (function (_super) {
     Bird.prototype.init = function () {
         this.x = App.stageWidth / 4;
         this.y = App.stageHeight / 2 - 20;
+        this.rotation = 0;
     };
     Bird.prototype.waveUp = function () {
         this.y = this.y + Math.sin(this._angle) * 2;

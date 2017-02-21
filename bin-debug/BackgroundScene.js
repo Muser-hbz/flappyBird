@@ -10,17 +10,18 @@ var BackgroundScene = (function (_super) {
     __extends(BackgroundScene, _super);
     function BackgroundScene() {
         var _this = _super.call(this) || this;
-        _this._scoreBitmapArray = new Array();
-        _this._numberBitmapArray = _this.loadNumberImg();
+        _this._bgDay = RES.getRes('bg_day_png');
+        _this._bgNight = RES.getRes('bg_night_png');
         _this._isCheck = false;
         _this.creatScene();
         return _this;
     }
     BackgroundScene.prototype.creatScene = function () {
         var bg = new egret.Bitmap();
-        bg.texture = RES.getRes('bg_day_png');
+        bg.texture = this._bgDay;
         bg.x = 0;
         bg.y = 0;
+        this._bg = bg;
         this.addChild(bg);
         var land1 = new egret.Bitmap(RES.getRes('land_png'));
         var land2 = new egret.Bitmap(RES.getRes('land_png'));
@@ -55,6 +56,16 @@ var BackgroundScene = (function (_super) {
         this.addChild(this._pipeDown2);
         this.addChild(this._land1);
         this.addChild(this._land2);
+    };
+    BackgroundScene.prototype.init = function () {
+        this._bg.texture = [this._bgDay, this._bgNight][Math.floor(Math.random() * 2)];
+        console.log(Math.floor(Math.random() * 2));
+        this._pipeUp1.x = this._pipeDown1.x = App.stageWidth;
+        this._pipeUp2.x = this._pipeDown2.x = App.stageWidth * 1.5;
+        this._pipeUp1.y = this.getPipeUpH();
+        this._pipeUp2.y = this.getPipeUpH();
+        this._pipeDown1.y = this._pipeUp1.y + 100;
+        this._pipeDown2.y = this._pipeUp2.y + 100;
     };
     BackgroundScene.prototype.moveLand = function () {
         var offset = App.landOffset;
@@ -100,7 +111,7 @@ var BackgroundScene = (function (_super) {
             return true;
         if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
             return true;
-        if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
+        if (this.isInDownPike(this._pipeDown2, birdOffset, birdX, birdY))
             return true;
         return false;
     };
@@ -132,15 +143,6 @@ var BackgroundScene = (function (_super) {
     };
     BackgroundScene.prototype.addScore = function () {
         GameScene.getInstance().addScore();
-    };
-    BackgroundScene.prototype.formatScore = function (score) {
-    };
-    BackgroundScene.prototype.loadNumberImg = function () {
-        var numberImg = new Array();
-        for (var i = 0; i <= 9; ++i) {
-            numberImg[i] = new egret.Bitmap(RES.getRes("font_" + i));
-        }
-        return numberImg;
     };
     return BackgroundScene;
 }(egret.DisplayObjectContainer));

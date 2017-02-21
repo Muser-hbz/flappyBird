@@ -36,6 +36,13 @@ var GameScene = (function (_super) {
         this._title = title;
         this._title.visible = true;
         this.addChild(this._title);
+        var scoreBmt = new egret.BitmapText();
+        scoreBmt.font = RES.getRes('number_fnt');
+        this._scoreNum = scoreBmt;
+        this._scoreNum.text = '0';
+        this._scoreNum.x = (this._stageW - this._scoreNum.width) / 2;
+        this._scoreNum.y = this._stageH * 0.1;
+        this.addChild(this._scoreNum);
         var playBt = App.getBitmap('button_play_png', this._stageW / 2, this._stageH / 2 + 60);
         this._playBt = playBt;
         this._playBt.visible = true;
@@ -53,41 +60,24 @@ var GameScene = (function (_super) {
         this._tutorial = tutorial;
         this._tutorial.visible = false;
         this.addChild(this._tutorial);
-        var scoreTxt = new egret.TextField();
-        scoreTxt.textColor = 0xffffff;
-        scoreTxt.textAlign = 'center';
-        scoreTxt.text = 'Score:';
-        scoreTxt.x = (this._stageW - scoreTxt.width) / 2;
-        scoreTxt.y = this._stageH * 0.05;
-        scoreTxt.visible = false;
-        this._scoreTxt = scoreTxt;
-        this.addChild(this._scoreTxt);
-        var scoreNum = new egret.TextField();
-        scoreNum.textColor = 0xffffff;
-        scoreNum.textAlign = 'center';
-        scoreNum.text = '0';
-        this._scoreNum = scoreNum;
-        this._scoreNum.x = (this._stageW - this._scoreNum.width) / 2;
-        this._scoreNum.y = this._stageH * 0.15;
-        scoreNum.visible = false;
-        this.addChild(this._scoreNum);
+        this.gameOverLayer();
     };
     GameScene.prototype.init = function () {
         this._title.visible = false;
         this._playBt.visible = false;
         this._gameReadyTxt.visible = true;
         this._tutorial.visible = true;
-        this._scoreTxt.visible = true;
         this._scoreNum.visible = true;
         this._bird.init();
+        this._bgScene.init();
+        this._scoreNum.text = '0';
         this._currentScore = 0;
     };
-    GameScene.prototype.gameReady = function (e) {
+    GameScene.prototype.gameReady = function () {
         var _this = this;
         if (!this.hasEventListener(egret.Event.ENTER_FRAME))
             this.addEventListener(egret.Event.ENTER_FRAME, this.tick, this);
         this._gameStatue = GameStatus.READY;
-        this._playBt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.gameReady, this);
         this.init();
         egret.callLater(function () {
             _this.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.gameStart, _this);
@@ -102,13 +92,41 @@ var GameScene = (function (_super) {
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
     };
     GameScene.prototype.gameOverLayer = function () {
-        var gameOverTxt = App.getBitmap('text_game_over_png', this._stageW / 2, this._stageH / 3);
-        this._gameOverTxt = gameOverTxt;
-        this.addChild(this._gameOverTxt);
+        var gameOverLayer = new egret.DisplayObjectContainer();
+        gameOverLayer.touchEnabled = true;
+        gameOverLayer.visible = false;
+        gameOverLayer.width = this._stageW;
+        this._gameOverLayer = gameOverLayer;
+        this._gameOverLayer.y = this._stageH / 4;
+        this.addChild(this._gameOverLayer);
+        var gameOverTxt = new egret.Bitmap(RES.getRes('text_game_over_png'));
+        gameOverTxt.x = (this._gameOverLayer.width - gameOverTxt.width) / 2;
+        this._gameOverLayer.addChild(gameOverTxt);
+        var scorePanel = new egret.DisplayObjectContainer();
+        var panleBg = new egret.Bitmap(RES.getRes('score_panel_png'));
+        scorePanel.addChild(panleBg);
+        scorePanel.x = (this._gameOverLayer.width - scorePanel.width) / 2;
+        scorePanel.y = gameOverTxt.height;
+        this._gameOverLayer.addChild(scorePanel);
+        var restartBt = new egret.Bitmap(RES.getRes('button_restart_png'));
+        restartBt.x = (this._gameOverLayer.width - restartBt.width) / 2;
+        restartBt.y = gameOverTxt.height + scorePanel.height;
+        this._restartBt = restartBt;
+        this._restartBt.touchEnabled = true;
+        this._gameOverLayer.addChild(this._restartBt);
+        this._restartBt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
+    };
+    GameScene.prototype.showGameOver = function () {
+        this._gameOverLayer.visible = true;
+    };
+    GameScene.prototype.restartGame = function (e) {
+        this._gameOverLayer.visible = false;
+        this.gameReady();
     };
     GameScene.prototype.gameOver = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.tick, this);
         this.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tap, this);
+        this.showGameOver();
     };
     GameScene.prototype.tap = function () {
         this._bird.flying();
@@ -128,7 +146,6 @@ var GameScene = (function (_super) {
                 }
                 break;
             case GameStatus.END:
-                // console.log(this._bird.height/2);
                 this.gameOver();
                 break;
         }
