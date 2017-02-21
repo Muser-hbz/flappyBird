@@ -123,8 +123,8 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 	}
 
 	private isInUpPipe(pikeUp: egret.Bitmap, birdOffset: number, birdX: number, birdY: number): boolean {
-		if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width) {
-			if (birdY <= pikeUp.y) {
+		if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width - birdOffset) {
+			if (birdY <= pikeUp.y + 17) {
 				return true;
 			}
 		}
@@ -132,8 +132,8 @@ class BackgroundScene extends egret.DisplayObjectContainer {
 	}
 
 	private isInDownPike(pikeDown: egret.Bitmap, birdOffset: number, birdX: number, birdY: number): boolean {
-		if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width) {
-			if (birdY + 24 >= pikeDown.y) {
+		if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width - - birdOffset) {
+			if (birdY + 17 >= pikeDown.y) {
 				return true;
 			}
 		}

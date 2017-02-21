@@ -25,11 +25,11 @@ App.landOffset = 3;
 App.pipeOffset = App.bgSpeedNormalOffset;
 App.isSpeedUp = false;
 App.birdVelocity = 0; //当前速度 px/f
-App.birdAcceleration = 1; //加速度 px/f^2
+App.birdAcceleration = 0.8; //加速度 px/f^2
 App.birdTouchV = -8; //点击加速度
 App.birdTouchR = -30;
 App.birdRv = 0;
-App.birdRa = 0.01;
+App.birdRa = 1;
 App.isCheat = false; //是否作弊
 App.testFlag = false;
 __reflect(App.prototype, "App");

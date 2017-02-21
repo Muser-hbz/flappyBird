@@ -59,7 +59,6 @@ var BackgroundScene = (function (_super) {
     };
     BackgroundScene.prototype.init = function () {
         this._bg.texture = [this._bgDay, this._bgNight][Math.floor(Math.random() * 2)];
-        console.log(Math.floor(Math.random() * 2));
         this._pipeUp1.x = this._pipeDown1.x = App.stageWidth;
         this._pipeUp2.x = this._pipeDown2.x = App.stageWidth * 1.5;
         this._pipeUp1.y = this.getPipeUpH();
@@ -116,16 +115,16 @@ var BackgroundScene = (function (_super) {
         return false;
     };
     BackgroundScene.prototype.isInUpPipe = function (pikeUp, birdOffset, birdX, birdY) {
-        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width) {
-            if (birdY <= pikeUp.y) {
+        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width - birdOffset) {
+            if (birdY <= pikeUp.y + 17) {
                 return true;
             }
         }
         return false;
     };
     BackgroundScene.prototype.isInDownPike = function (pikeDown, birdOffset, birdX, birdY) {
-        if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width) {
-            if (birdY + 24 >= pikeDown.y) {
+        if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width - -birdOffset) {
+            if (birdY + 17 >= pikeDown.y) {
                 return true;
             }
         }

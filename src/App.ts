@@ -7,11 +7,11 @@ class App {
 	public static pipeOffset: number = App.bgSpeedNormalOffset;
 	public static isSpeedUp: boolean = false;
 	public static birdVelocity: number = 0;//当前速度 px/f
-	public static birdAcceleration: number = 1;//加速度 px/f^2
+	public static birdAcceleration: number = 0.8;//加速度 px/f^2
 	public static birdTouchV: number = -8;//点击加速度
 	public static birdTouchR: number = -30;
 	public static birdRv: number = 0;
-	public static birdRa: number = 0.01;
+	public static birdRa: number = 1;
 
 	public static isCheat: boolean = false;//是否作弊
 	public static testFlag: boolean = false;
