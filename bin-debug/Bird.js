@@ -21,10 +21,16 @@ var Bird = (function (_super) {
         var birdColor = ['green', 'blue', 'red'];
         var mcDataFactory = new egret.MovieClipDataFactory(RES.getRes("bird_json"), RES.getRes("bird_png"));
         //创建 MovieClip，将工厂生成的 MovieClipData 传入参数
-        var birdMc = new egret.MovieClip(mcDataFactory.generateMovieClipData("Bird"));
+        var birdMc = new egret.MovieClip(mcDataFactory.generateMovieClipData("bird"));
         this._mc = birdMc;
+<<<<<<< HEAD
         this._mc.anchorOffsetX = this._mc.x >> 1;
         this._mc.anchorOffsetY = this._mc.y >> 1;
+=======
+        this._mc.anchorOffsetX = this._mc.width / 2;
+        this._mc.anchorOffsetY = this._mc.height / 2;
+        this._mc.x = this._mc.width / 4;
+>>>>>>> 985c807f7c2352239abebe972b6a01bff3901bd0
         this.addChild(this._mc);
         //播放动画
         this._mc.gotoAndPlay(birdColor[Math.floor(Math.random() * 3)], -1);
@@ -36,6 +42,7 @@ var Bird = (function (_super) {
     Bird.prototype.init = function () {
         this.x = App.stageWidth / 4;
         this.y = App.stageHeight / 2 - 20;
+        this.rotation = 0;
     };
     Bird.prototype.waveUp = function () {
         this.y = this.y + Math.sin(this._angle) * 2;
@@ -46,7 +53,8 @@ var Bird = (function (_super) {
         App.birdRv += App.birdRa;
         for (var i = 0; i < Math.abs(App.birdVelocity); i++) {
             this.y += Math.abs(App.birdVelocity) / App.birdVelocity;
-            // if(this.rotation < 80 )	this.rotation += Math.abs(App.birdRv) / App.birdRv;
+            if (this.rotation < 80)
+                this.rotation += Math.abs(App.birdRv) / App.birdRv;
             if (this.hitFloor()) {
                 this.rotation = 90;
                 return false;
@@ -58,12 +66,13 @@ var Bird = (function (_super) {
         if (this.y >= 0) {
             App.birdVelocity = App.birdTouchV;
         }
-        /*if(this.rotation < 90){
+        if (this.rotation < 90) {
             this.rotation = App.birdTouchR;
-        }*/
+            App.birdRv = 0;
+        }
     };
     Bird.prototype.hitFloor = function () {
-        if (this.y + this.height >= App.landH) {
+        if (this.y + this.height / 2 >= App.landH) {
             return true;
         }
         return false;
@@ -72,7 +81,7 @@ var Bird = (function (_super) {
         return [this.x, this.y];
     };
     Bird.prototype.getOffset = function () {
-        return this.width / 2;
+        return this.width / 4;
     };
     return Bird;
 }(egret.DisplayObjectContainer));

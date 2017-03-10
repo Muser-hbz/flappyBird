@@ -10,14 +10,18 @@ var BackgroundScene = (function (_super) {
     __extends(BackgroundScene, _super);
     function BackgroundScene() {
         var _this = _super.call(this) || this;
+        _this._bgDay = RES.getRes('bg_day_png');
+        _this._bgNight = RES.getRes('bg_night_png');
+        _this._isCheck = false;
         _this.creatScene();
         return _this;
     }
     BackgroundScene.prototype.creatScene = function () {
         var bg = new egret.Bitmap();
-        bg.texture = RES.getRes('bg_day_png');
+        bg.texture = this._bgDay;
         bg.x = 0;
         bg.y = 0;
+        this._bg = bg;
         this.addChild(bg);
         var land1 = new egret.Bitmap(RES.getRes('land_png'));
         var land2 = new egret.Bitmap(RES.getRes('land_png'));
@@ -53,6 +57,15 @@ var BackgroundScene = (function (_super) {
         this.addChild(this._land1);
         this.addChild(this._land2);
     };
+    BackgroundScene.prototype.init = function () {
+        this._bg.texture = [this._bgDay, this._bgNight][Math.floor(Math.random() * 2)];
+        this._pipeUp1.x = this._pipeDown1.x = App.stageWidth;
+        this._pipeUp2.x = this._pipeDown2.x = App.stageWidth * 1.5;
+        this._pipeUp1.y = this.getPipeUpH();
+        this._pipeUp2.y = this.getPipeUpH();
+        this._pipeDown1.y = this._pipeUp1.y + 100;
+        this._pipeDown2.y = this._pipeUp2.y + 100;
+    };
     BackgroundScene.prototype.moveLand = function () {
         var offset = App.landOffset;
         this._land1.x -= offset;
@@ -70,16 +83,19 @@ var BackgroundScene = (function (_super) {
         this._pipeDown2.x = this._pipeUp2.x;
         if (this._pipeUp1.x == -this._pipeUp1.width) {
             this._pipeUp1.x = App.stageWidth;
+            this._isCheck = false;
             this._pipeUp1.y = this.getPipeUpH();
             this._pipeDown1.x = this._pipeUp1.x;
             this._pipeDown1.y = this._pipeUp1.y + 100;
         }
         if (this._pipeUp2.x == -this._pipeUp2.width) {
             this._pipeUp2.x = App.stageWidth;
+            this._isCheck = false;
             this._pipeUp2.y = this.getPipeUpH();
             this._pipeDown2.x = this._pipeUp2.x;
             this._pipeDown2.y = this._pipeUp2.y + 100;
         }
+        this.checkScore();
     };
     BackgroundScene.prototype.getPipeUpH = function () {
         return Math.floor(100 + Math.random() * 80);
@@ -94,26 +110,38 @@ var BackgroundScene = (function (_super) {
             return true;
         if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
             return true;
-        if (this.isInDownPike(this._pipeDown1, birdOffset, birdX, birdY))
+        if (this.isInDownPike(this._pipeDown2, birdOffset, birdX, birdY))
             return true;
         return false;
     };
     BackgroundScene.prototype.isInUpPipe = function (pikeUp, birdOffset, birdX, birdY) {
-        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width) {
-            if (birdY <= pikeUp.y) {
+        if (pikeUp.x <= birdX + birdOffset && pikeUp.x >= birdX - pikeUp.width - birdOffset) {
+            if (birdY <= pikeUp.y + 17) {
                 return true;
             }
         }
         return false;
     };
     BackgroundScene.prototype.isInDownPike = function (pikeDown, birdOffset, birdX, birdY) {
-        if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width) {
-            // console.log(birdOffset);
-            if (birdY + 24 >= pikeDown.y) {
+        if (pikeDown.x <= birdX + birdOffset && pikeDown.x >= birdX - pikeDown.width - -birdOffset) {
+            if (birdY + 17 >= pikeDown.y) {
                 return true;
             }
         }
         return false;
+    };
+    BackgroundScene.prototype.checkScore = function () {
+        this._line = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+        if (this._isCheck)
+            return;
+        var _line = GameScene.getInstance().getBirdPos()[0] - GameScene.getInstance().getBridOffset();
+        if (this._pipeUp1.x + this._pipeUp1.width <= _line || this._pipeUp2.x + this._pipeUp2.width <= _line) {
+            this.addScore();
+            this._isCheck = true;
+        }
+    };
+    BackgroundScene.prototype.addScore = function () {
+        GameScene.getInstance().addScore();
     };
     return BackgroundScene;
 }(egret.DisplayObjectContainer));
