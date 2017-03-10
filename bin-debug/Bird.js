@@ -23,6 +23,8 @@ var Bird = (function (_super) {
         //创建 MovieClip，将工厂生成的 MovieClipData 传入参数
         var birdMc = new egret.MovieClip(mcDataFactory.generateMovieClipData("Bird"));
         this._mc = birdMc;
+        this._mc.anchorOffsetX = this._mc.x >> 1;
+        this._mc.anchorOffsetY = this._mc.y >> 1;
         this.addChild(this._mc);
         //播放动画
         this._mc.gotoAndPlay(birdColor[Math.floor(Math.random() * 3)], -1);
